@@ -1,6 +1,4 @@
-// Gogos Einkaufsliste - React + Firebase (mit gespeichertem Familiencode)
-
-// firebase.js bleibt unverändert wie bisher
+// Gogos Einkaufsliste - mit Spracherkennung (Web Speech API)
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -32,11 +30,11 @@ function App() {
     return () => unsub();
   }, [familiencode]);
 
-  const hinzufuegen = async () => {
-    if (!eingabe.trim()) return;
+  const hinzufuegen = async (name) => {
+    if (!name.trim()) return;
     const id = Date.now().toString();
     await setDoc(doc(db, "listen", familiencode, "artikel", id), {
-      name: eingabe,
+      name,
       gekauft: false
     });
     setEingabe("");
@@ -50,6 +48,21 @@ function App() {
 
   const loeschen = async (id) => {
     await deleteDoc(doc(db, "listen", familiencode, "artikel", id));
+  };
+
+  const startenMitSprache = () => {
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "de-DE";
+    recognition.start();
+
+    recognition.onresult = async (event) => {
+      const gesprochenerText = event.results[0][0].transcript.toLowerCase();
+      const artikel = gesprochenerText.replace(" hinzufügen", "").trim();
+
+      if (artikel) {
+        hinzufuegen(artikel);
+      }
+    };
   };
 
   if (!codeGesetzt) {
@@ -77,7 +90,8 @@ function App() {
         onChange={(e) => setEingabe(e.target.value)}
         placeholder="Artikel hinzufügen"
       />
-      <button onClick={hinzufuegen}>Hinzufügen</button>
+      <button onClick={() => hinzufuegen(eingabe)}>Hinzufügen</button>
+      <button onClick={startenMitSprache}>🎤 Artikel sprechen</button>
       <ul>
         {artikel.map((item) => (
           <li key={item.id}>

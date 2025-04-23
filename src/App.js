@@ -1,3 +1,7 @@
+// Gogos Einkaufsliste - React + Firebase (mit gespeichertem Familiencode)
+
+// firebase.js bleibt unverändert wie bisher
+
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
 import {
@@ -10,8 +14,10 @@ import {
 } from "firebase/firestore";
 
 function App() {
-  const [familiencode, setFamiliencode] = useState("");
-  const [codeGesetzt, setCodeGesetzt] = useState(false);
+  const [familiencode, setFamiliencode] = useState(() => {
+    return localStorage.getItem("familiencode") || "";
+  });
+  const [codeGesetzt, setCodeGesetzt] = useState(!!familiencode);
   const [artikel, setArtikel] = useState([]);
   const [eingabe, setEingabe] = useState("");
 
@@ -55,7 +61,10 @@ function App() {
           value={familiencode}
           onChange={(e) => setFamiliencode(e.target.value)}
         />
-        <button onClick={() => setCodeGesetzt(true)}>Start</button>
+        <button onClick={() => {
+          localStorage.setItem("familiencode", familiencode);
+          setCodeGesetzt(true);
+        }}>Start</button>
       </div>
     );
   }
@@ -86,6 +95,12 @@ function App() {
           </li>
         ))}
       </ul>
+      <button onClick={() => {
+        localStorage.removeItem("familiencode");
+        setCodeGesetzt(false);
+      }}>
+        Familiencode wechseln
+      </button>
     </div>
   );
 }

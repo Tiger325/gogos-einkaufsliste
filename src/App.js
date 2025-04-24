@@ -1,4 +1,4 @@
-// Gogos Einkaufsliste – mit Spracherkennung (ohne Push-Benachrichtigungen)
+// Einkaufsliste – mit Spracherkennung (ohne Push-Benachrichtigungen)
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -96,7 +96,7 @@ function App() {
   if (!codeGesetzt) {
     return (
       <div style={containerStyle}>
-        <h2>Gogos Einkaufsliste</h2>
+        <h2>Einkaufsliste</h2>
         <p>Familiencode eingeben:</p>
         <input
           style={inputStyle}
@@ -113,7 +113,7 @@ function App() {
 
   return (
     <div style={containerStyle}>
-      <h2>Gogos Einkaufsliste – Code: {familiencode}</h2>
+      <h2>Einkaufsliste – Code: {familiencode}</h2>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <input
           style={inputStyle}

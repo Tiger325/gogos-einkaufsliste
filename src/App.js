@@ -66,7 +66,7 @@ function App() {
   };
 
   const containerStyle = {
-    backgroundColor: "#fdf6f0", // zartes Pastell (beige-rosé)
+    backgroundColor: "#d8f3dc", // zartes Pastellgrün
     minHeight: "100vh",
     padding: "40px",
     display: "flex",
@@ -88,7 +88,7 @@ function App() {
     margin: "5px",
     borderRadius: "10px",
     border: "none",
-    backgroundColor: "#ffd6dc",
+    backgroundColor: "#b7e4c7",
     cursor: "pointer",
     fontSize: "16px"
   };

@@ -1,4 +1,4 @@
-// Gogos Einkaufsliste - mit Spracherkennung (Web Speech API)
+// Gogos Einkaufsliste – mit Spracherkennung (ohne Push-Benachrichtigungen)
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -65,16 +65,45 @@ function App() {
     };
   };
 
+  const containerStyle = {
+    backgroundColor: "#fdf6f0", // zartes Pastell (beige-rosé)
+    minHeight: "100vh",
+    padding: "40px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    fontFamily: "Arial, sans-serif"
+  };
+
+  const inputStyle = {
+    padding: "10px",
+    margin: "5px",
+    borderRadius: "10px",
+    border: "1px solid #ccc",
+    fontSize: "16px"
+  };
+
+  const buttonStyle = {
+    padding: "10px 20px",
+    margin: "5px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#ffd6dc",
+    cursor: "pointer",
+    fontSize: "16px"
+  };
+
   if (!codeGesetzt) {
     return (
-      <div style={{ padding: 20 }}>
+      <div style={containerStyle}>
         <h2>Gogos Einkaufsliste</h2>
         <p>Familiencode eingeben:</p>
         <input
+          style={inputStyle}
           value={familiencode}
           onChange={(e) => setFamiliencode(e.target.value)}
         />
-        <button onClick={() => {
+        <button style={buttonStyle} onClick={() => {
           localStorage.setItem("familiencode", familiencode);
           setCodeGesetzt(true);
         }}>Start</button>
@@ -83,33 +112,39 @@ function App() {
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={containerStyle}>
       <h2>Gogos Einkaufsliste – Code: {familiencode}</h2>
-      <input
-        value={eingabe}
-        onChange={(e) => setEingabe(e.target.value)}
-        placeholder="Artikel hinzufügen"
-      />
-      <button onClick={() => hinzufuegen(eingabe)}>Hinzufügen</button>
-      <button onClick={startenMitSprache}>🎤 Artikel sprechen</button>
-      <ul>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <input
+          style={inputStyle}
+          value={eingabe}
+          onChange={(e) => setEingabe(e.target.value)}
+          placeholder="Artikel hinzufügen"
+        />
+        <div>
+          <button style={buttonStyle} onClick={() => hinzufuegen(eingabe)}>Hinzufügen</button>
+          <button style={buttonStyle} onClick={startenMitSprache}>🎤 Artikel sprechen</button>
+        </div>
+      </div>
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {artikel.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} style={{ marginTop: "10px" }}>
             <span
               onClick={() => umschalten(item.id, item.gekauft)}
               style={{
                 textDecoration: item.gekauft ? "line-through" : "none",
                 color: item.gekauft ? "red" : "black",
                 cursor: "pointer",
+                fontSize: "18px"
               }}
             >
               {item.name}
             </span>
-            <button onClick={() => loeschen(item.id)}>🗑️</button>
+            <button style={buttonStyle} onClick={() => loeschen(item.id)}>🗑️</button>
           </li>
         ))}
       </ul>
-      <button onClick={() => {
+      <button style={buttonStyle} onClick={() => {
         localStorage.removeItem("familiencode");
         setCodeGesetzt(false);
       }}>

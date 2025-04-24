@@ -1,4 +1,4 @@
-// Einkaufsliste – mit Spracherkennung und liniertem Hintergrund wie ein Heftblatt
+// Einkaufsliste – mit Spracherkennung und liniertem Hintergrund wie ein Heftblatt (dunkler)
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -66,8 +66,8 @@ function App() {
   };
 
   const containerStyle = {
-    backgroundColor: "#ffffff",
-    backgroundImage: "repeating-linear-gradient(to bottom, #d3d3d3 0, #d3d3d3 1px, transparent 30px)",
+    backgroundColor: "#f3f3f3",
+    backgroundImage: "repeating-linear-gradient(to bottom, #b0b0b0 0, #b0b0b0 1px, transparent 30px)",
     minHeight: "100vh",
     padding: "40px",
     display: "flex",

@@ -1,4 +1,4 @@
-// Einkaufsliste – mit Spracherkennung (ohne Push-Benachrichtigungen)
+// Einkaufsliste – mit Spracherkennung und liniertem Hintergrund wie ein Heftblatt
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -66,13 +66,14 @@ function App() {
   };
 
   const containerStyle = {
-    backgroundColor: "#d8f3dc", // zartes Pastellgrün
+    backgroundColor: "#ffffff",
+    backgroundImage: "repeating-linear-gradient(to bottom, #d3d3d3 0, #d3d3d3 1px, transparent 30px)",
     minHeight: "100vh",
     padding: "40px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "Arial, sans-serif"
+    fontFamily: "'Patrick Hand', cursive"
   };
 
   const inputStyle = {
@@ -80,7 +81,8 @@ function App() {
     margin: "5px",
     borderRadius: "10px",
     border: "1px solid #ccc",
-    fontSize: "16px"
+    fontSize: "16px",
+    fontFamily: "'Patrick Hand', cursive"
   };
 
   const buttonStyle = {
@@ -90,7 +92,8 @@ function App() {
     border: "none",
     backgroundColor: "#b7e4c7",
     cursor: "pointer",
-    fontSize: "16px"
+    fontSize: "16px",
+    fontFamily: "'Patrick Hand', cursive"
   };
 
   if (!codeGesetzt) {
@@ -126,7 +129,7 @@ function App() {
           <button style={buttonStyle} onClick={startenMitSprache}>🎤 Artikel sprechen</button>
         </div>
       </div>
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul style={{ listStyle: "none", padding: 0, width: "100%" }}>
         {artikel.map((item) => (
           <li key={item.id} style={{ marginTop: "10px" }}>
             <span
@@ -135,7 +138,10 @@ function App() {
                 textDecoration: item.gekauft ? "line-through" : "none",
                 color: item.gekauft ? "red" : "black",
                 cursor: "pointer",
-                fontSize: "18px"
+                fontSize: "20px",
+                fontFamily: "'Patrick Hand', cursive",
+                display: "inline-block",
+                width: "100%"
               }}
             >
               {item.name}

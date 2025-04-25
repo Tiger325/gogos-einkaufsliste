@@ -1,4 +1,4 @@
-// Einkaufsliste – mit Notizbuch-Hintergrund, verbessertem Namensfeld und Menü unten
+// Einkaufsliste – mit leerem Notizbuch-Hintergrund, verbessertem Namensfeld und Menü unten
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";

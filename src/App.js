@@ -108,14 +108,11 @@ function App() {
     alignItems: "center",
     justifyContent: "center",
     gap: "10px",
-    padding: "10px 20px",
+    padding: "0 10px",
     fontSize: "18px",
     fontFamily: "'Patrick Hand', cursive",
     minHeight: "30px",
-    boxSizing: "border-box",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    borderRadius: "8px",
-    boxShadow: "2px 2px 5px rgba(0,0,0,0.15)"
+    boxSizing: "border-box"
   };
 
   const handleNameSpeichern = () => {

@@ -1,4 +1,4 @@
-// Einkaufsliste – mit Spracherkennung und liniertem Hintergrund wie ein Heftblatt (dunkler)
+// Einkaufsliste – mit Heftlinien, Handschrift und Layout-Anpassungen
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -67,7 +67,11 @@ function App() {
 
   const containerStyle = {
     backgroundColor: "#f3f3f3",
-    backgroundImage: "repeating-linear-gradient(to bottom, #b0b0b0 0, #b0b0b0 1px, transparent 30px)",
+    backgroundImage: `
+      linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+      linear-gradient(to bottom, #b0b0b0 1px, transparent 30px)
+    `,
+    backgroundSize: "30px 30px",
     minHeight: "100vh",
     padding: "40px",
     display: "flex",
@@ -94,6 +98,19 @@ function App() {
     cursor: "pointer",
     fontSize: "16px",
     fontFamily: "'Patrick Hand', cursive"
+  };
+
+  const listItemStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottom: "1px dashed transparent",
+    padding: "5px 10px",
+    fontSize: "20px",
+    fontFamily: "'Patrick Hand', cursive",
+    width: "100%",
+    minHeight: "30px",
+    boxSizing: "border-box"
   };
 
   if (!codeGesetzt) {
@@ -131,17 +148,14 @@ function App() {
       </div>
       <ul style={{ listStyle: "none", padding: 0, width: "100%" }}>
         {artikel.map((item) => (
-          <li key={item.id} style={{ marginTop: "10px" }}>
+          <li key={item.id} style={listItemStyle}>
             <span
               onClick={() => umschalten(item.id, item.gekauft)}
               style={{
                 textDecoration: item.gekauft ? "line-through" : "none",
                 color: item.gekauft ? "red" : "black",
                 cursor: "pointer",
-                fontSize: "20px",
-                fontFamily: "'Patrick Hand', cursive",
-                display: "inline-block",
-                width: "100%"
+                flexGrow: 1
               }}
             >
               {item.name}

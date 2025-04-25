@@ -1,4 +1,4 @@
-// Einkaufsliste – mit realistischer Schreibseite, Benutzername und Menü unten
+// Einkaufsliste – mit Notizbuch-Hintergrund, verbessertem Namensfeld und Menü unten
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -70,13 +70,10 @@ function App() {
   };
 
   const containerStyle = {
-    backgroundColor: "#fdfbf8",
-    backgroundImage: `
-      linear-gradient(to right, #d1d1d1 1px, transparent 1px),
-      linear-gradient(to bottom, #b0b0b0 1px, transparent 30px),
-      repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(0,0,0,0.01) 2px, transparent 4px)
-    `,
-    backgroundSize: "30px 30px",
+    backgroundImage: "url('/notizbuch.jpg')",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
     minHeight: "100vh",
     padding: "40px 20px 100px 20px",
     display: "flex",
@@ -114,8 +111,15 @@ function App() {
     fontFamily: "'Patrick Hand', cursive",
     width: "100%",
     minHeight: "30px",
-    boxSizing: "border-box",
-    borderBottom: "1px solid transparent"
+    boxSizing: "border-box"
+  };
+
+  const handleNameSpeichern = () => {
+    if (benutzername.trim().length > 1) {
+      localStorage.setItem("benutzername", benutzername);
+    } else {
+      alert("Bitte gib einen vollständigen Namen ein.");
+    }
   };
 
   if (!codeGesetzt || !benutzername) {
@@ -132,9 +136,7 @@ function App() {
             />
             <button
               style={buttonStyle}
-              onClick={() => {
-                localStorage.setItem("benutzername", benutzername);
-              }}
+              onClick={handleNameSpeichern}
             >Speichern</button>
           </div>
         )}
@@ -208,4 +210,3 @@ function App() {
 }
 
 export default App;
-

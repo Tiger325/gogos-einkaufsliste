@@ -74,7 +74,7 @@ function App() {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "fixed",
-    backgroundPosition: "top -10px left",
+    backgroundPosition: "top -20px left",
     minHeight: "100vh",
     padding: "20px 20px 100px 20px",
     display: "flex",

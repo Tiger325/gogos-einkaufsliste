@@ -72,17 +72,16 @@ function App() {
 
   const containerStyle = {
     backgroundImage: "url('/notizbuch.jpg')",
-    backgroundSize: "100% auto",
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "fixed",
-    backgroundPosition: "top center",
+    backgroundPosition: "top left",
     minHeight: "100vh",
-    padding: "40px 20px 100px 20px",
+    padding: "20px 20px 100px 20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "'Patrick Hand', cursive"
-  };
+    fontFamily: "'Patrick Hand', cursive"};
 
   const inputStyle = {
     padding: "10px",
@@ -107,15 +106,14 @@ function App() {
   const listItemStyle = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     gap: "10px",
-    padding: "0 10px",
+    padding: "0 40px",
     fontSize: "18px",
     fontFamily: "'Patrick Hand', cursive",
     width: "100%",
     minHeight: "30px",
-    boxSizing: "border-box"
-  };
+    boxSizing: "border-box"};
 
   const handleNameSpeichern = () => {
     if (benutzername.trim().length > 1) {
@@ -165,7 +163,7 @@ function App() {
 
   return (
     <div style={containerStyle}>
-      <h2>Einkaufsliste – Code: {familiencode}</h2>
+      <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>Einkaufsliste – Code: {familiencode}</h2>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <input
           style={inputStyle}

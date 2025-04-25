@@ -106,14 +106,15 @@ function App() {
   const listItemStyle = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     gap: "10px",
-    padding: "0 40px",
+    padding: "0 10px",
     fontSize: "18px",
     fontFamily: "'Patrick Hand', cursive",
     width: "100%",
     minHeight: "30px",
-    boxSizing: "border-box"};
+    boxSizing: "border-box"
+  };
 
   const handleNameSpeichern = () => {
     if (benutzername.trim().length > 1) {

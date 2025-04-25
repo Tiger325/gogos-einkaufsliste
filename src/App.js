@@ -107,7 +107,8 @@ function App() {
   const listItemStyle = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    gap: "10px",
     padding: "0 10px",
     fontSize: "18px",
     fontFamily: "'Patrick Hand', cursive",

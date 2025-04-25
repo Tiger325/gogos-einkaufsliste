@@ -1,4 +1,4 @@
-// Einkaufsliste – mit leerem Notizbuch-Hintergrund, verbessertem Namensfeld und Menü unten
+// Einkaufsliste – zentrierte Artikelanzeige, Name gespeichert, Notizbuch-Hintergrund
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -63,7 +63,6 @@ function App() {
     recognition.onresult = async (event) => {
       const gesprochenerText = event.results[0][0].transcript.toLowerCase();
       const artikel = gesprochenerText.replace(" hinzufügen", "").trim();
-
       if (artikel) {
         hinzufuegen(artikel);
       }
@@ -81,7 +80,8 @@ function App() {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "'Patrick Hand', cursive"};
+    fontFamily: "'Patrick Hand', cursive"
+  };
 
   const inputStyle = {
     padding: "10px",
@@ -111,7 +111,6 @@ function App() {
     padding: "0 10px",
     fontSize: "18px",
     fontFamily: "'Patrick Hand', cursive",
-    width: "100%",
     minHeight: "30px",
     boxSizing: "border-box"
   };
@@ -177,7 +176,7 @@ function App() {
           <button style={buttonStyle} onClick={startenMitSprache}>🎤 Artikel sprechen</button>
         </div>
       </div>
-      <ul style={{ listStyle: "none", padding: 0, width: "100%" }}>
+      <ul style={{ listStyle: "none", padding: 0, width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {artikel.map((item) => (
           <li key={item.id} style={listItemStyle}>
             <span
@@ -186,7 +185,7 @@ function App() {
                 textDecoration: item.gekauft ? "line-through" : "none",
                 color: item.gekauft ? "red" : "black",
                 cursor: "pointer",
-                flexGrow: 1
+                textAlign: "center"
               }}
             >
               {item.name} {item.autor ? `(${item.autor})` : ""}

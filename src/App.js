@@ -19,6 +19,7 @@ function App() {
     return localStorage.getItem("benutzername") || "";
   });
   const [codeGesetzt, setCodeGesetzt] = useState(!!familiencode);
+  const [nameGespeichert, setNameGespeichert] = useState(!!benutzername);
   const [artikel, setArtikel] = useState([]);
   const [eingabe, setEingabe] = useState("");
 
@@ -71,9 +72,10 @@ function App() {
 
   const containerStyle = {
     backgroundImage: "url('/notizbuch.jpg')",
-    backgroundSize: "cover",
+    backgroundSize: "100% auto",
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "fixed",
+    backgroundPosition: "top center",
     minHeight: "100vh",
     padding: "40px 20px 100px 20px",
     display: "flex",
@@ -117,22 +119,24 @@ function App() {
   const handleNameSpeichern = () => {
     if (benutzername.trim().length > 1) {
       localStorage.setItem("benutzername", benutzername);
+      setNameGespeichert(true);
     } else {
       alert("Bitte gib einen vollständigen Namen ein.");
     }
   };
 
-  if (!codeGesetzt || !benutzername) {
+  if (!codeGesetzt || !nameGespeichert) {
     return (
       <div style={containerStyle}>
         <h2>Einkaufsliste</h2>
-        {!benutzername && (
+        {!nameGespeichert && (
           <div>
             <p>Dein Name:</p>
             <input
               style={inputStyle}
               value={benutzername}
               onChange={(e) => setBenutzername(e.target.value)}
+              placeholder="Dein Name"
             />
             <button
               style={buttonStyle}
@@ -195,6 +199,7 @@ function App() {
         <button style={buttonStyle} onClick={() => {
           localStorage.removeItem("benutzername");
           setBenutzername("");
+          setNameGespeichert(false);
         }}>
           👤 Name ändern
         </button>

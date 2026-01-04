@@ -1,38 +1,98 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  font-family: 'Patrick Hand', cursive;
+  background-color: #fdfaf6;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.startbild-container {
+  background-image: url('/startbild.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 100px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.startbild-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: #ffffffcc;
+  border: 2px solid #555;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Patrick Hand', cursive;
+  transition: background-color 0.3s;
 }
 
-.App-header {
-  background-color: #282c34;
+.startbild-button:hover {
+  background-color: #ddd;
+}
+
+.notizbuch-container {
+  background-image: url('/notizbuch.jpg');
+  background-size: cover;
+  background-attachment: fixed;
   min-height: 100vh;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.list-item {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  font-size: 18px;
+  font-family: 'Patrick Hand', cursive;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
+.list-item span {
+  flex-grow: 1;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.gestrichen {
+  text-decoration: line-through;
+  color: red;
+}
+
+input,
+button {
+  font-family: 'Patrick Hand', cursive;
+}
+
+input {
+  padding: 10px;
+  margin: 5px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 80%;
+  max-width: 400px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 10px;
+  border: none;
+  background-color: #b7e4c7;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.liste-kopf {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  text-align: center;
 }

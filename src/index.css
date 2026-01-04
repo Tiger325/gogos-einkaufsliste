@@ -1,13 +1,88 @@
-body {
+body, html, #root, .App {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  height: 100%;
+  width: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.startbild-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.startbild {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.notizbuch-container {
+  background-image: url('/notizbuch.jpg'); /* dein Hintergrundbild */
+  background-size: cover;
+  background-position: left top;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+.listen-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.listen-tabs input {
+  padding: 4px 8px;
+  font-size: 16px;
+}
+
+.listen-tabs button {
+  padding: 6px 12px;
+  font-size: 16px;
+  background-color: #f5d0a9;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.active-tab {
+  background-color: #ffcc88;
+  font-weight: bold;
+}
+
+.artikel-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.artikel-eintrag {
+  background-color: rgba(255, 255, 255, 0.8);
+  margin: 0 auto;
+  max-width: 80%;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #ccc;
+  font-size: 20px;
+}
+
+.eingabe-bereich {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.eingabe-bereich input {
+  padding: 8px;
+  font-size: 16px;
+  width: 60%;
+}
+
+.eingabe-bereich button {
+  padding: 8px 12px;
+  font-size: 16px;
 }

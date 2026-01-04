@@ -18,7 +18,7 @@
 
 
 // ==== src/components/Startseite.js ====
-import React, { useState } from "react";
+
 import ListeAnsicht from "./ListeAnsicht";
 import "../App.css";
 

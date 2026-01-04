@@ -1,4 +1,4 @@
-// Einkaufsliste mit Startbildschirm, Listenwahl, OCR, Spracheingabe und Notizbuch-Design
+// Einkaufsliste mit Startbildschirm, Listenauswahl und Notizbuch-Hintergrund
 
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -20,50 +20,48 @@ function App() {
   });
   const [codeGesetzt, setCodeGesetzt] = useState(!!familiencode);
   const [nameGespeichert, setNameGespeichert] = useState(!!benutzername);
-  const [aktuelleListe, setAktuelleListe] = useState("Haus");
-  const [listen, setListen] = useState(["Haus"]);
   const [artikel, setArtikel] = useState([]);
   const [eingabe, setEingabe] = useState("");
-  const [neueListeName, setNeueListeName] = useState("");
+  const [liste, setListe] = useState("Haus"); // Start mit "Haus"
+  const [startbildAnzeigen, setStartbildAnzeigen] = useState(true);
 
   useEffect(() => {
-    if (!familiencode || !aktuelleListe) return;
+    if (!familiencode || !liste) return;
     const unsub = onSnapshot(
-      collection(db, "listen", familiencode, aktuelleListe),
+      collection(db, "listen", familiencode, liste),
       (snapshot) => {
-        setArtikel(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        setArtikel(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       }
     );
     return () => unsub();
-  }, [familiencode, aktuelleListe]);
+  }, [familiencode, liste]);
 
   const hinzufuegen = async (name) => {
     if (!name.trim()) return;
     const id = Date.now().toString();
-    await setDoc(doc(db, "listen", familiencode, aktuelleListe, id), {
+    await setDoc(doc(db, "listen", familiencode, liste, id), {
       name,
       autor: benutzername,
-      gekauft: false,
+      gekauft: false
     });
     setEingabe("");
   };
 
   const umschalten = async (id, gekauft) => {
-    await updateDoc(doc(db, "listen", familiencode, aktuelleListe, id), {
-      gekauft: !gekauft,
+    await updateDoc(doc(db, "listen", familiencode, liste, id), {
+      gekauft: !gekauft
     });
   };
 
   const loeschen = async (id) => {
-    await deleteDoc(doc(db, "listen", familiencode, aktuelleListe, id));
+    await deleteDoc(doc(db, "listen", familiencode, liste, id));
   };
 
   const startenMitSprache = () => {
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang = "de-DE";
     recognition.start();
-
-    recognition.onresult = (event) => {
+    recognition.onresult = async (event) => {
       const gesprochenerText = event.results[0][0].transcript.toLowerCase();
       const artikel = gesprochenerText.replace(" hinzufügen", "").trim();
       if (artikel) {
@@ -73,17 +71,17 @@ function App() {
   };
 
   const containerStyle = {
-    backgroundImage: codeGesetzt ? "url('/notizbuch.jpg')" : "url('/startbild.png')",
+    backgroundImage: startbildAnzeigen ? "url('/startbild.png')" : "url('/notizbuch.jpg')",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "fixed",
-    backgroundPosition: "center",
+    backgroundPosition: "top left",
     minHeight: "100vh",
     padding: "20px 20px 100px 20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "'Patrick Hand', cursive",
+    fontFamily: "'Patrick Hand', cursive"
   };
 
   const inputStyle = {
@@ -92,7 +90,7 @@ function App() {
     borderRadius: "10px",
     border: "1px solid #ccc",
     fontSize: "16px",
-    fontFamily: "'Patrick Hand', cursive",
+    fontFamily: "'Patrick Hand', cursive"
   };
 
   const buttonStyle = {
@@ -103,7 +101,7 @@ function App() {
     backgroundColor: "#b7e4c7",
     cursor: "pointer",
     fontSize: "16px",
-    fontFamily: "'Patrick Hand', cursive",
+    fontFamily: "'Patrick Hand', cursive"
   };
 
   const listItemStyle = {
@@ -115,7 +113,7 @@ function App() {
     fontSize: "18px",
     fontFamily: "'Patrick Hand', cursive",
     minHeight: "30px",
-    boxSizing: "border-box",
+    boxSizing: "border-box"
   };
 
   const handleNameSpeichern = () => {
@@ -130,7 +128,7 @@ function App() {
   if (!codeGesetzt || !nameGespeichert) {
     return (
       <div style={containerStyle}>
-        <h2 style={{ marginTop: "40px" }}>Einkaufsliste</h2>
+        <h2>Einkaufsliste</h2>
         {!nameGespeichert && (
           <div>
             <p>Dein Name:</p>
@@ -151,47 +149,27 @@ function App() {
               value={familiencode}
               onChange={(e) => setFamiliencode(e.target.value)}
             />
-            <button
-              style={buttonStyle}
-              onClick={() => {
-                localStorage.setItem("familiencode", familiencode);
-                setCodeGesetzt(true);
-              }}
-            >Start</button>
+            <button style={buttonStyle} onClick={() => {
+              localStorage.setItem("familiencode", familiencode);
+              setCodeGesetzt(true);
+            }}>Start</button>
           </div>
         )}
       </div>
     );
   }
 
+  if (startbildAnzeigen) {
+    return (
+      <div style={containerStyle} onClick={() => setStartbildAnzeigen(false)}>
+        <h2 style={{ color: "white", marginTop: "40vh" }}>Zum Start tippen...</h2>
+      </div>
+    );
+  }
+
   return (
     <div style={containerStyle}>
-      <h2 style={{ marginBottom: "20px", marginTop: "10px" }}>Liste: {aktuelleListe}</h2>
-      <div>
-        {listen.map((liste, idx) => (
-          <button
-            key={idx}
-            style={{ ...buttonStyle, backgroundColor: liste === aktuelleListe ? "#95d5b2" : "#d8f3dc" }}
-            onClick={() => setAktuelleListe(liste)}
-          >{liste}</button>
-        ))}
-        <input
-          style={{ ...inputStyle, width: "120px" }}
-          value={neueListeName}
-          onChange={(e) => setNeueListeName(e.target.value)}
-          placeholder="+ Neue Liste"
-        />
-        <button
-          style={buttonStyle}
-          onClick={() => {
-            if (neueListeName.trim()) {
-              setListen([...new Set([...listen, neueListeName.trim()])]);
-              setAktuelleListe(neueListeName.trim());
-              setNeueListeName("");
-            }
-          }}
-        >➕</button>
-      </div>
+      <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>Liste: {liste}</h2>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <input
           style={inputStyle}
@@ -227,11 +205,15 @@ function App() {
           localStorage.removeItem("benutzername");
           setBenutzername("");
           setNameGespeichert(false);
-        }}>👤 Name ändern</button>
+        }}>
+          👤 Name ändern
+        </button>
         <button style={buttonStyle} onClick={() => {
           localStorage.removeItem("familiencode");
           setCodeGesetzt(false);
-        }}>🏠 Familiencode wechseln</button>
+        }}>
+          🏠 Familiencode wechseln
+        </button>
       </div>
     </div>
   );

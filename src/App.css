@@ -1,98 +1,169 @@
+
+/* App.css */
+
 body {
   margin: 0;
-  font-family: 'Patrick Hand', cursive;
-  background-color: #fdfaf6;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #fefefe;
+  background-image: url('./notizbuch-hintergrund.jpg'); /* Das ist das Bild nach dem Start */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .startbild-container {
-  background-image: url('/startbild.png');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
+  position: relative;
   width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  padding-bottom: 100px;
-}
-
-.startbild-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  background-color: #ffffffcc;
-  border: 2px solid #555;
-  border-radius: 12px;
-  cursor: pointer;
-  font-family: 'Patrick Hand', cursive;
-  transition: background-color 0.3s;
-}
-
-.startbild-button:hover {
-  background-color: #ddd;
-}
-
-.notizbuch-container {
-  background-image: url('/notizbuch.jpg');
+  height: 100vh;
+  background: url('./startbild.png') no-repeat center center;
   background-size: cover;
-  background-attachment: fixed;
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.list-item {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  font-size: 18px;
-  font-family: 'Patrick Hand', cursive;
+}
+
+.startbild-overlay {
+  position: absolute;
+  bottom: 60px;
   width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
+  text-align: center;
+  padding: 0 20px;
 }
 
-.list-item span {
-  flex-grow: 1;
-  cursor: pointer;
-}
-
-.gestrichen {
-  text-decoration: line-through;
-  color: red;
-}
-
-input,
-button {
-  font-family: 'Patrick Hand', cursive;
-}
-
-input {
+.startbild-overlay input {
+  font-size: 18px;
   padding: 10px;
   margin: 5px;
-  font-size: 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  width: 80%;
-  max-width: 400px;
+  width: 220px;
 }
 
-button {
+.startbild-overlay button {
+  font-size: 18px;
   padding: 10px 20px;
-  margin: 5px;
+  margin: 8px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2c7a7b;
+  color: white;
+  cursor: pointer;
+}
+
+.liste-ansicht-container {
+  padding: 60px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.listen-titel {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 8px 16px;
+  border-radius: 12px;
+}
+
+.formular {
+  display: flex;
+  margin-bottom: 30px;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.formular input {
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  width: 250px;
+}
+
+.formular button {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  background-color: #3182ce;
+  color: white;
+  cursor: pointer;
+}
+
+.artikelliste {
+  list-style: none;
+  padding: 0;
+  width: 90%;
+  max-width: 500px;
+}
+
+.artikelliste li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  margin: 12px auto;
+  padding: 10px 16px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.artikelliste li .textblock {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.artikelliste li button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.liste-menu {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 12px 0;
+  border-top: 1px solid #ccc;
+}
+
+.liste-menu button {
+  font-size: 16px;
+  padding: 10px 16px;
   border-radius: 10px;
   border: none;
-  background-color: #b7e4c7;
+  background-color: #4a5568;
+  color: white;
   cursor: pointer;
-  font-size: 16px;
 }
 
-.liste-kopf {
-  margin-bottom: 20px;
-  margin-top: 10px;
-  text-align: center;
+.symbol-leiste {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.symbol-leiste button {
+  background-color: #2c7a7b;
+  border: none;
+  padding: 14px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }

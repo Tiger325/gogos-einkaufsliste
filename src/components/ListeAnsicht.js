@@ -1,58 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { FaTrash } from "react-icons/fa";
-import { collection, addDoc, onSnapshot, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
 
-function ListeAnsicht({ nutzername, familiencode }) {
-  const [artikel, setArtikel] = useState("");
-  const [liste, setListe] = useState([]);
+import React, { useState, useEffect } from "react";
+import "./ListeAnsicht.css";
 
-  useEffect(() => {
-    const unsub = onSnapshot(collection(db, "listen", familiencode, "artikel"), (snapshot) => {
-      const neueListe = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setListe(neueListe);
-    });
+function ListeAnsicht({ nutzername, familiencode, setNutzername }) {
+  const [artikel, setArtikel] = useState([]);
+  const [neuerArtikel, setNeuerArtikel] = useState("");
 
-    return () => unsub();
-  }, [familiencode]);
-
-  const artikelHinzufuegen = async () => {
-    if (artikel.trim() !== "") {
-      await addDoc(collection(db, "listen", familiencode, "artikel"), {
-        text: artikel,
-        autor: nutzername
-      });
-      setArtikel("");
+  const addArtikel = () => {
+    if (neuerArtikel.trim() !== "") {
+      setArtikel([...artikel, { text: neuerArtikel, autor: nutzername }]);
+      setNeuerArtikel("");
     }
   };
 
-  const artikelEntfernen = async (id) => {
-    await deleteDoc(doc(db, "listen", familiencode, "artikel", id));
+  const benutzerWechseln = () => {
+    const neuerName = prompt("Neuen Benutzernamen eingeben:");
+    if (neuerName) {
+      setNutzername(neuerName);
+      localStorage.setItem("nutzername", neuerName);
+    }
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Einkaufsliste – {familiencode}</h2>
-      <input
-        type="text"
-        placeholder="Neuer Artikel"
-        value={artikel}
-        onChange={(e) => setArtikel(e.target.value)}
-      />
-      <button onClick={artikelHinzufuegen}>Hinzufügen</button>
-      <ul>
-        {liste.map((item) => (
-          <li key={item.id}>
-            {item.text} – <i>{item.autor}</i>
-            <button onClick={() => artikelEntfernen(item.id)}>
-              <FaTrash />
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="liste-container">
+      <div className="hintergrund-notizbuch">
+        <h2>Liste: Haus</h2>
+        <p>Eingeloggt als: {nutzername}</p>
+        <button onClick={benutzerWechseln}>Benutzernamen wechseln</button>
+        <input
+          value={neuerArtikel}
+          onChange={(e) => setNeuerArtikel(e.target.value)}
+          placeholder="Neuen Artikel hinzufügen"
+        />
+        <button onClick={addArtikel}>Hinzufügen</button>
+        <ul>
+          {artikel.map((item, index) => (
+            <li key={index}>
+              {item.text} <small>({item.autor})</small>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

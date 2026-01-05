@@ -1,18 +1,17 @@
 
 .liste-container {
+  padding: 20px;
+}
+
+.hintergrund-notizbuch {
   background-image: url("/notizbuch.jpg");
   background-size: cover;
   min-height: 100vh;
   padding: 20px;
-  text-align: center;
-  font-family: 'Patrick Hand', cursive;
+  color: #333;
 }
 
-.eingabe-bereich input {
-  padding: 10px;
-  margin-right: 5px;
-}
-
-.eingabe-bereich button {
-  margin: 0 5px;
+input {
+  margin-right: 8px;
+  padding: 5px;
 }

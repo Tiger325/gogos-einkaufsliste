@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Startbildschirm from "./components/Startbildschirm";
 import ListeAnsicht from "./components/ListeAnsicht";
@@ -19,7 +20,7 @@ function App() {
   return (
     <>
       {gestartet ? (
-        <ListeAnsicht nutzername={nutzername} familiencode={familiencode} />
+        <ListeAnsicht nutzername={nutzername} familiencode={familiencode} setNutzername={setNutzername} />
       ) : (
         <Startbildschirm onStart={handleStart} />
       )}

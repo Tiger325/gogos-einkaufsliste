@@ -8,14 +8,7 @@ function App() {
   const [gestartet, setGestartet] = useState(false);
   const [benutzername, setBenutzername] = useState("");
   const [familiencode, setFamiliencode] = useState("");
-  const [liste, setListe] = useState("Haus");
-
-  const handleStart = (name, code, listentitel) => {
-    setBenutzername(name);
-    setFamiliencode(code);
-    setListe(listentitel || "Haus");
-    setGestartet(true);
-  };
+  const [listeName, setListeName] = useState("Haus");
 
   return (
     <>
@@ -23,10 +16,17 @@ function App() {
         <ListeAnsicht
           benutzername={benutzername}
           familiencode={familiencode}
-          liste={liste}
+          listeName={listeName}
         />
       ) : (
-        <Startbildschirm onStart={handleStart} />
+        <Startbildschirm
+          onContinue={(name, code, liste) => {
+            setBenutzername(name);
+            setFamiliencode(code);
+            setListeName(liste);
+            setGestartet(true);
+          }}
+        />
       )}
     </>
   );

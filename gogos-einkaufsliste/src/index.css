@@ -1,0 +1,11 @@
+
+body {
+  margin: 0;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background: url('./notizbuch.jpg') repeat-y center top;
+  background-size: contain;
+}
+
+h1, h2, h3, p, input, button {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}

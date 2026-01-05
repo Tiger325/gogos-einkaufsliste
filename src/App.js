@@ -6,13 +6,27 @@ import "./index.css";
 
 function App() {
   const [gestartet, setGestartet] = useState(false);
+  const [benutzername, setBenutzername] = useState("");
+  const [familiencode, setFamiliencode] = useState("");
+  const [liste, setListe] = useState("Haus");
+
+  const handleStart = (name, code, listentitel) => {
+    setBenutzername(name);
+    setFamiliencode(code);
+    setListe(listentitel || "Haus");
+    setGestartet(true);
+  };
 
   return (
     <>
       {gestartet ? (
-        <ListeAnsicht />
+        <ListeAnsicht
+          benutzername={benutzername}
+          familiencode={familiencode}
+          liste={liste}
+        />
       ) : (
-        <Startbildschirm onContinue={() => setGestartet(true)} />
+        <Startbildschirm onStart={handleStart} />
       )}
     </>
   );

@@ -1,53 +1,44 @@
-/* src/components/Startbildschirm.css */
+import React, { useState } from "react";
+import "./Startbildschirm.css";
 
-.startbild-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+function Startbildschirm({ onContinue }) {
+  const [benutzername, setBenutzername] = useState("");
+  const [familiencode, setFamiliencode] = useState("");
+  const [listenname, setListenname] = useState("Haus");
+
+  const handleStart = () => {
+    if (!benutzername || !familiencode || !listenname) return;
+    localStorage.setItem("benutzername", benutzername);
+    localStorage.setItem("familiencode", familiencode);
+    localStorage.setItem("listenname", listenname);
+    onContinue(); // geht zu ListeAnsicht
+  };
+
+  return (
+    <div className="startbildschirm" style={{ backgroundImage: "url('/startbild.png')" }}>
+      <div className="eingabemaske">
+        <input
+          type="text"
+          placeholder="Name eingeben"
+          value={benutzername}
+          onChange={(e) => setBenutzername(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Familiencode"
+          value={familiencode}
+          onChange={(e) => setFamiliencode(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Listenname (z. B. Haus)"
+          value={listenname}
+          onChange={(e) => setListenname(e.target.value)}
+        />
+        <button onClick={handleStart}>Los geht’s!</button>
+      </div>
+    </div>
+  );
 }
 
-.startbild {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-.start-eingabe {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 80%;
-  max-width: 300px;
-}
-
-.start-eingabe input {
-  padding: 12px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-}
-
-.start-eingabe button {
-  padding: 12px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.start-eingabe button:hover {
-  background-color: #45a049;
-}
+export default Startbildschirm;

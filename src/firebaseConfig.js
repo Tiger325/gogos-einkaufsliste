@@ -1,14 +1,13 @@
-
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "DEIN_API_KEY",
-  authDomain: "DEIN_PROJECT.firebaseapp.com",
-  projectId: "DEIN_PROJECT_ID",
-  storageBucket: "DEIN_PROJECT.appspot.com",
-  messagingSenderId: "DEINE_SENDER_ID",
-  appId: "DEINE_APP_ID"
+  apiKey: "AIzaSyD6SDiuQ875LX9DYOMVfdSwT4ipwRL13_Y",
+  authDomain: "gogoseinkaufsliste.firebaseapp.com",
+  projectId: "gogoseinkaufsliste",
+  storageBucket: "gogoseinkaufsliste.appspot.com",
+  messagingSenderId: "910390367250",
+  appId: "1:910390367250:web:5238db8d0db09f850cb4cb"
 };
 
 const app = initializeApp(firebaseConfig);

@@ -1,70 +1,55 @@
-
 import React, { useEffect, useState } from "react";
+import { FaTrash } from "react-icons/fa";
+import { collection, addDoc, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
-import { FaTrash, FaMicrophone, FaCamera } from "react-icons/fa";
-import "./ListeAnsicht.css";
 
-function ListeAnsicht() {
-  const benutzername = localStorage.getItem("benutzername") || "";
-  const familiencode = localStorage.getItem("familiencode") || "";
-  const liste = localStorage.getItem("liste") || "Haus";
-  const [artikel, setArtikel] = useState([]);
-  const [eingabe, setEingabe] = useState("");
-
-  const pfad = collection(db, "listen", familiencode, liste);
+function ListeAnsicht({ nutzername, familiencode }) {
+  const [artikel, setArtikel] = useState("");
+  const [liste, setListe] = useState([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(pfad, (snapshot) => {
-      setArtikel(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    const unsub = onSnapshot(collection(db, "listen", familiencode, "artikel"), (snapshot) => {
+      const neueListe = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setListe(neueListe);
     });
+
     return () => unsub();
-  }, []);
+  }, [familiencode]);
 
-  const hinzufuegen = async () => {
-    if (eingabe.trim().length === 0) return;
-    await addDoc(pfad, { name: eingabe, autor: benutzername, gekauft: false });
-    setEingabe("");
+  const artikelHinzufuegen = async () => {
+    if (artikel.trim() !== "") {
+      await addDoc(collection(db, "listen", familiencode, "artikel"), {
+        text: artikel,
+        autor: nutzername
+      });
+      setArtikel("");
+    }
   };
 
-  const umschalten = async (id, gekauft) => {
-    await updateDoc(doc(pfad, id), { gekauft: !gekauft });
-  };
-
-  const loeschen = async (id) => {
-    await deleteDoc(doc(pfad, id));
+  const artikelEntfernen = async (id) => {
+    await deleteDoc(doc(db, "listen", familiencode, "artikel", id));
   };
 
   return (
-    <div className="liste-container">
-      <h2>{liste} – Code: {familiencode}</h2>
-      <div className="eingabe-bereich">
-        <input
-          value={eingabe}
-          onChange={(e) => setEingabe(e.target.value)}
-          placeholder="Artikel hinzufügen"
-        />
-        <button onClick={hinzufuegen}>➕</button>
-        <button><FaMicrophone /></button>
-        <button><FaCamera /></button>
-      </div>
+    <div style={{ padding: 20 }}>
+      <h2>Einkaufsliste – {familiencode}</h2>
+      <input
+        type="text"
+        placeholder="Neuer Artikel"
+        value={artikel}
+        onChange={(e) => setArtikel(e.target.value)}
+      />
+      <button onClick={artikelHinzufuegen}>Hinzufügen</button>
       <ul>
-        {artikel.map((a) => (
-          <li key={a.id}>
-            <span
-              style={{ textDecoration: a.gekauft ? "line-through" : "none" }}
-              onClick={() => umschalten(a.id, a.gekauft)}
-            >
-              {a.name} {a.autor && `(${a.autor})`}
-            </span>
-            <button onClick={() => loeschen(a.id)}><FaTrash /></button>
+        {liste.map((item) => (
+          <li key={item.id}>
+            {item.text} – <i>{item.autor}</i>
+            <button onClick={() => artikelEntfernen(item.id)}>
+              <FaTrash />
+            </button>
           </li>
         ))}
       </ul>

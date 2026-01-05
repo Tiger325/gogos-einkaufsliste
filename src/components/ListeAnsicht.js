@@ -1,51 +1,73 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
+import { db } from "../firebaseConfig";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { FaTrash, FaMicrophone, FaCamera } from "react-icons/fa";
 import "./ListeAnsicht.css";
 
 function ListeAnsicht() {
+  const benutzername = localStorage.getItem("benutzername") || "";
+  const familiencode = localStorage.getItem("familiencode") || "";
+  const liste = localStorage.getItem("liste") || "Haus";
   const [artikel, setArtikel] = useState([]);
-  const [neuerArtikel, setNeuerArtikel] = useState("");
+  const [eingabe, setEingabe] = useState("");
 
-  const benutzername = localStorage.getItem("benutzername") || "Unbekannt";
-  const listenname = localStorage.getItem("listenname") || "Haus";
+  const pfad = collection(db, "listen", familiencode, liste);
 
-  const artikelHinzufuegen = () => {
-    if (neuerArtikel.trim() === "") return;
-    setArtikel([...artikel, { text: neuerArtikel, autor: benutzername }]);
-    setNeuerArtikel("");
+  useEffect(() => {
+    const unsub = onSnapshot(pfad, (snapshot) => {
+      setArtikel(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsub();
+  }, []);
+
+  const hinzufuegen = async () => {
+    if (eingabe.trim().length === 0) return;
+    await addDoc(pfad, { name: eingabe, autor: benutzername, gekauft: false });
+    setEingabe("");
   };
 
-  const artikelEntfernen = (index) => {
-    const neueListe = [...artikel];
-    neueListe.splice(index, 1);
-    setArtikel(neueListe);
+  const umschalten = async (id, gekauft) => {
+    await updateDoc(doc(pfad, id), { gekauft: !gekauft });
+  };
+
+  const loeschen = async (id) => {
+    await deleteDoc(doc(pfad, id));
   };
 
   return (
     <div className="liste-container">
-      <h2 className="listenname">{listenname}</h2>
-      <ul className="artikel-liste">
-        {artikel.map((eintrag, index) => (
-          <li key={index}>
-            <span className="artikeltext">{eintrag.text}</span>
-            <span className="autor">({eintrag.autor})</span>
-            <button onClick={() => artikelEntfernen(index)}>
-              <FaTrash />
-            </button>
+      <h2>{liste} – Code: {familiencode}</h2>
+      <div className="eingabe-bereich">
+        <input
+          value={eingabe}
+          onChange={(e) => setEingabe(e.target.value)}
+          placeholder="Artikel hinzufügen"
+        />
+        <button onClick={hinzufuegen}>➕</button>
+        <button><FaMicrophone /></button>
+        <button><FaCamera /></button>
+      </div>
+      <ul>
+        {artikel.map((a) => (
+          <li key={a.id}>
+            <span
+              style={{ textDecoration: a.gekauft ? "line-through" : "none" }}
+              onClick={() => umschalten(a.id, a.gekauft)}
+            >
+              {a.name} {a.autor && `(${a.autor})`}
+            </span>
+            <button onClick={() => loeschen(a.id)}><FaTrash /></button>
           </li>
         ))}
       </ul>
-      <div className="eingabe-zeile">
-        <input
-          type="text"
-          placeholder="Artikel hinzufügen"
-          value={neuerArtikel}
-          onChange={(e) => setNeuerArtikel(e.target.value)}
-        />
-        <button onClick={artikelHinzufuegen}>Hinzufügen</button>
-        <button title="Spracheingabe"><FaMicrophone /></button>
-        <button title="Bild-Scan"><FaCamera /></button>
-      </div>
     </div>
   );
 }

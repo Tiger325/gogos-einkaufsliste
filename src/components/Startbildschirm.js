@@ -1,71 +1,46 @@
-// src/components/Startbildschirm.js
+
 import React, { useState } from "react";
-import "../index.css";
-import startbild from "../assets/startbild.png";
+import "./Startbildschirm.css";
 
-function Startbildschirm({ onStart }) {
-  const [benutzername, setBenutzername] = useState("");
-  const [familiencode, setFamiliencode] = useState("");
+function Startbildschirm({ onContinue }) {
+  const [name, setName] = useState(localStorage.getItem("benutzername") || "");
+  const [code, setCode] = useState(localStorage.getItem("familiencode") || "");
   const [liste, setListe] = useState("Haus");
-  const [neueListe, setNeueListe] = useState("");
-  const [eigeneListeAktiv, setEigeneListeAktiv] = useState(false);
 
-  const handleStart = () => {
-    const listenName = eigeneListeAktiv && neueListe ? neueListe : liste;
-    if (!benutzername || !familiencode || !listenName) return;
-    onStart({ benutzername, familiencode, listenName });
+  const speichernUndWeiter = () => {
+    if (name.length > 1 && code.length > 1) {
+      localStorage.setItem("benutzername", name);
+      localStorage.setItem("familiencode", code);
+      localStorage.setItem("liste", liste);
+      onContinue();
+    } else {
+      alert("Bitte Namen und Familiencode eingeben");
+    }
   };
 
   return (
-    <div
-      className="startbildschirm"
-      style={{
-        backgroundImage: `url(${startbild})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px",
-      }}
-    >
-      <div className="startfeld">
+    <div className="startbildschirm">
+      <img src="/startbild.png" alt="Startbild" className="startbild" />
+      <div className="eingabe-box">
         <input
           type="text"
           placeholder="Dein Name"
-          value={benutzername}
-          onChange={(e) => setBenutzername(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
           placeholder="Familiencode"
-          value={familiencode}
-          onChange={(e) => setFamiliencode(e.target.value)}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
         />
-
-        {!eigeneListeAktiv && (
-          <select value={liste} onChange={(e) => setListe(e.target.value)}>
-            <option value="Haus">Haus</option>
-          </select>
-        )}
-
-        {eigeneListeAktiv && (
-          <input
-            type="text"
-            placeholder="Neue Liste"
-            value={neueListe}
-            onChange={(e) => setNeueListe(e.target.value)}
-          />
-        )}
-
-        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-          <button onClick={() => setEigeneListeAktiv(!eigeneListeAktiv)}>
-            {eigeneListeAktiv ? "Abbrechen" : "+ Neue Liste"}
-          </button>
-          <button onClick={handleStart}>Los geht’s</button>
-        </div>
+        <input
+          type="text"
+          placeholder="Listenname z. B. Haus"
+          value={liste}
+          onChange={(e) => setListe(e.target.value)}
+        />
+        <button onClick={speichernUndWeiter}>Weiter</button>
       </div>
     </div>
   );

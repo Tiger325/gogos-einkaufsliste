@@ -1,60 +1,18 @@
+
 .liste-container {
-  background-color: #fefefe;
-  padding: 16px;
+  background-image: url("/notizbuch.jpg");
+  background-size: cover;
   min-height: 100vh;
-  background-image: linear-gradient(to bottom, #fefefe 0.5px, transparent 1px);
-  background-size: 100% 32px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Patrick Hand', cursive;
 }
 
-.liste-container h2 {
-  margin-bottom: 16px;
+.eingabe-bereich input {
+  padding: 10px;
+  margin-right: 5px;
 }
 
-.liste-container ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.liste-container li {
-  padding: 8px;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.gestrichen {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-.eingabe-container {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.eingabe-container input {
-  flex: 1;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.eingabe-container button {
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: none;
-  background-color: #1e90ff;
-  color: white;
-  cursor: pointer;
-}
-
-.icon-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 8px;
-  font-size: 1.2rem;
+.eingabe-bereich button {
+  margin: 0 5px;
 }

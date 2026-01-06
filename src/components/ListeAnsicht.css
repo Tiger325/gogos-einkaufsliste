@@ -4,7 +4,7 @@
 }
 
 .hintergrund-notizbuch {
-  background-image: url("/notizbuch.jpg");
+  background-image: url('../assets/notizbuch.jpg');
   background-size: cover;
   min-height: 100vh;
   padding: 20px;

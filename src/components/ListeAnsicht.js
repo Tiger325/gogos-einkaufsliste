@@ -1,77 +1,85 @@
-
 import React, { useEffect, useState } from "react";
-import { collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { FaTrash, FaMicrophone, FaCamera, FaPlus } from "react-icons/fa";
+import { collection, addDoc, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import { FaTrash } from "react-icons/fa";
 import "./ListeAnsicht.css";
 
-function ListeAnsicht({ nutzername, familiencode, onBenutzerWechseln, onRaumWechseln }) {
+function ListeAnsicht({ nutzername, familiencode }) {
   const [artikel, setArtikel] = useState("");
   const [liste, setListe] = useState([]);
 
-  const listenPfad = `familien/${familiencode}/listen/Haus/artikel`;
-
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, listenPfad), (snapshot) => {
+    if (!familiencode) return;
+
+    const listenRef = collection(db, "listen", familiencode, "eintraege");
+    const unsub = onSnapshot(listenRef, (snapshot) => {
       const neueListe = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setListe(neueListe);
     });
+
     return () => unsub();
   }, [familiencode]);
 
   const artikelHinzufuegen = async () => {
     if (artikel.trim() === "") return;
-    await addDoc(collection(db, listenPfad), {
+
+    const listenRef = collection(db, "listen", familiencode, "eintraege");
+    await addDoc(listenRef, {
       text: artikel,
       autor: nutzername,
-      erledigt: false,
+      gekauft: false,
     });
     setArtikel("");
   };
 
-  const artikelLoeschen = async (id) => {
-    await deleteDoc(doc(db, listenPfad, id));
+  const artikelEntfernen = async (id) => {
+    const docRef = doc(db, "listen", familiencode, "eintraege", id);
+    await deleteDoc(docRef);
   };
 
-  const artikelUmschalten = async (id, erledigt) => {
-    await updateDoc(doc(db, listenPfad, id), {
-      erledigt: !erledigt,
-    });
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      artikelHinzufuegen();
+    }
   };
 
   return (
-    <div className="hintergrund-notizbuch">
-      <div className="wechsel-buttons">
-        <button onClick={onRaumWechseln}>🔁 Raum wechseln</button>
-        <button onClick={onBenutzerWechseln}>👤 Benutzer wechseln</button>
-      </div>
-      <div className="liste-container">
-        <h2>📝 Liste „Haus“</h2>
+    <div className="liste-container">
+      <h2>Liste {familiencode}</h2>
+
+      <div className="eingabe-bereich">
         <input
+          type="text"
           value={artikel}
           onChange={(e) => setArtikel(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && artikelHinzufuegen()}
-          placeholder="Artikel hinzufügen..."
+          onKeyDown={handleKeyDown}
+          placeholder="Artikel eingeben..."
         />
-        <ul>
-          {liste.map((item) => (
-            <li key={item.id}>
-              <span
-                onClick={() => artikelUmschalten(item.id, item.erledigt)}
-                style={{ textDecoration: item.erledigt ? "line-through" : "none", flex: 1 }}
-              >
-                {item.text} <small>({item.autor})</small>
-              </span>
-              <button onClick={() => artikelLoeschen(item.id)}>
-                <FaTrash />
-              </button>
-            </li>
-          ))}
-        </ul>
+        <button onClick={artikelHinzufuegen} title="Hinzufügen">
+          <FaPlus />
+        </button>
+        <button title="Sprachaufnahme">
+          <FaMicrophone />
+        </button>
+        <button title="Foto hinzufügen">
+          <FaCamera />
+        </button>
       </div>
+
+      <ul>
+        {liste.map((eintrag) => (
+          <li key={eintrag.id}>
+            <span>{eintrag.text}</span>
+            <span className="autor">({eintrag.autor})</span>
+            <button onClick={() => artikelEntfernen(eintrag.id)} title="Löschen">
+              <FaTrash />
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

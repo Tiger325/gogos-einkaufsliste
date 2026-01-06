@@ -1,89 +1,46 @@
 .liste-container {
-  min-height: 100vh;
-  background-image: url('../assets/notizbuch.jpg');
+ background-image: url('../assets/notizbuch.jpg');
   background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  min-height: 100vh;
   padding: 20px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive;
 }
 
-.liste-container h2 {
-  text-align: center;
+.kopfbereich {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  background-color: rgba(255, 255, 255, 0.6);
-  padding: 10px;
-  border-radius: 12px;
-  display: inline-block;
 }
 
-.liste-container ul {
-  list-style-type: none;
+.kopfbereich button {
+  padding: 5px 10px;
+}
+
+ul {
+  list-style: none;
   padding: 0;
 }
 
-.liste-container li {
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 8px;
   border-bottom: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 5px;
-  border-radius: 8px;
 }
 
-.liste-container input[type="text"] {
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-right: 10px;
-}
-
-.liste-container button {
-  padding: 8px 12px;
-  font-size: 14px;
-  margin-left: 5px;
-  border: none;
-  border-radius: 8px;
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.liste-container button:hover {
-  background-color: #45a049;
-}
-
-.buttons-row {
-  margin-top: 10px;
+.eingabe-bereich {
+  margin-top: 20px;
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
-.controls-top {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
+.eingabe-bereich input {
+  flex: 1;
+  padding: 8px;
 }
 
-.controls-top button {
-  background-color: #1976d2;
-}
-
-.controls-top button:hover {
-  background-color: #1565c0;
-}
-
-.list-info {
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
+.eingabe-bereich button {
+  padding: 8px;
 }

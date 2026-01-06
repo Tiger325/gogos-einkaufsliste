@@ -27,6 +27,7 @@ li {
 
 li.erledigt span {
   text-decoration: line-through;
+  text-decoration-color: red; /* <-- Nur der Strich wird rot */
   opacity: 0.6;
 }
 

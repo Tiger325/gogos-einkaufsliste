@@ -15,6 +15,7 @@
 ul {
   list-style: none;
   padding: 0;
+  margin-left: 76px; /* ca. 2 cm nach rechts */
 }
 
 li {

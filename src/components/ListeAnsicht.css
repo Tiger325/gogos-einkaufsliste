@@ -1,9 +1,9 @@
 .liste-container {
- background-image: url('../assets/notizbuch.jpg');
+  background-image: url("../assets/notizbuch.jpg");
   background-size: cover;
+  background-position: center;
   min-height: 100vh;
-  padding: 20px;
-  font-family: "Comic Sans MS", cursive;
+  padding: 16px;
 }
 
 .kopfbereich {

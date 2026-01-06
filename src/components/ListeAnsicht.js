@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { FaTrash, FaMicrophone, FaCamera } from "react-icons/fa";
 import { collection, addDoc, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import "./ListeAnsicht.css";
+
 function ListeAnsicht({ nutzername, familiencode }) {
   const [produkte, setProdukte] = useState([]);
   const [eingabe, setEingabe] = useState("");
@@ -21,17 +23,29 @@ function ListeAnsicht({ nutzername, familiencode }) {
   }, [familiencode]);
 
   const produktHinzufuegen = async () => {
-    if (eingabe.trim() === "") return;
-    await addDoc(listRef, {
-      text: eingabe,
-      autor: nutzername,
-      erstellt: new Date(),
-    });
-    setEingabe("");
+    if (eingabe.trim() === "") {
+      console.warn("⚠️ Keine Eingabe gemacht.");
+      return;
+    }
+    try {
+      await addDoc(listRef, {
+        text: eingabe,
+        autor: nutzername,
+        erstellt: new Date(),
+      });
+      console.log("✅ Produkt erfolgreich hinzugefügt:", eingabe);
+      setEingabe("");
+    } catch (error) {
+      console.error("❌ Fehler beim Hinzufügen:", error);
+    }
   };
 
   const produktLoeschen = async (id) => {
-    await deleteDoc(doc(db, "listen", familiencode, "produkte", id));
+    try {
+      await deleteDoc(doc(db, "listen", familiencode, "produkte", id));
+    } catch (error) {
+      console.error("❌ Fehler beim Löschen:", error);
+    }
   };
 
   const starteSpracherkennung = () => {
@@ -86,7 +100,7 @@ function ListeAnsicht({ nutzername, familiencode }) {
         />
         <button onClick={produktHinzufuegen}>Hinzufügen</button>
         <button onClick={starteSpracherkennung}><FaMicrophone /></button>
-        <button><FaCamera /></button>
+        <button disabled title="Noch nicht aktiviert"><FaCamera /></button>
       </div>
     </div>
   );

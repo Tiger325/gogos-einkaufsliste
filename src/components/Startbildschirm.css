@@ -1,7 +1,40 @@
 
-.startbildschirm {
+.startbild-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.startbild {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;
+}
+
+.start-eingabe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 50px;
+  gap: 10px;
+}
+
+.start-eingabe input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.start-eingabe button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }

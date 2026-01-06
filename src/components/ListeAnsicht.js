@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { FaTrash, FaMicrophone, FaCamera } from "react-icons/fa";
-import { collection, addDoc, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import "./ListeAnsicht.css";
 
@@ -23,29 +23,23 @@ function ListeAnsicht({ nutzername, familiencode }) {
   }, [familiencode]);
 
   const produktHinzufuegen = async () => {
-    if (eingabe.trim() === "") {
-      console.warn("⚠️ Keine Eingabe gemacht.");
-      return;
-    }
-    try {
-      await addDoc(listRef, {
-        text: eingabe,
-        autor: nutzername,
-        erstellt: new Date(),
-      });
-      console.log("✅ Produkt erfolgreich hinzugefügt:", eingabe);
-      setEingabe("");
-    } catch (error) {
-      console.error("❌ Fehler beim Hinzufügen:", error);
-    }
+    if (eingabe.trim() === "") return;
+    await addDoc(listRef, {
+      text: eingabe,
+      autor: nutzername,
+      erledigt: false,
+      erstellt: new Date(),
+    });
+    setEingabe("");
   };
 
   const produktLoeschen = async (id) => {
-    try {
-      await deleteDoc(doc(db, "listen", familiencode, "artikel", id));
-    } catch (error) {
-      console.error("❌ Fehler beim Löschen:", error);
-    }
+    await deleteDoc(doc(db, "listen", familiencode, "artikel", id));
+  };
+
+  const produktUmschalten = async (id, aktuellerStatus) => {
+    const ref = doc(db, "listen", familiencode, "artikel", id);
+    await updateDoc(ref, { erledigt: !aktuellerStatus });
   };
 
   const starteSpracherkennung = () => {
@@ -83,9 +77,9 @@ function ListeAnsicht({ nutzername, familiencode }) {
 
       <ul>
         {produkte.map((produkt) => (
-          <li key={produkt.id}>
+          <li key={produkt.id} className={produkt.erledigt ? "erledigt" : ""} onClick={() => produktUmschalten(produkt.id, produkt.erledigt)}>
             <span>{produkt.text} <em>({produkt.autor})</em></span>
-            <button onClick={() => produktLoeschen(produkt.id)}><FaTrash /></button>
+            <button onClick={(e) => { e.stopPropagation(); produktLoeschen(produkt.id); }}><FaTrash /></button>
           </li>
         ))}
       </ul>
@@ -100,7 +94,7 @@ function ListeAnsicht({ nutzername, familiencode }) {
         />
         <button onClick={produktHinzufuegen}>Hinzufügen</button>
         <button onClick={starteSpracherkennung}><FaMicrophone /></button>
-        <button disabled title="Noch nicht aktiviert"><FaCamera /></button>
+        <button><FaCamera /></button>
       </div>
     </div>
   );

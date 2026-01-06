@@ -1,13 +1,23 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Startbildschirm from "./components/Startbildschirm";
 import ListeAnsicht from "./components/ListeAnsicht";
 import "./index.css";
 
 function App() {
   const [gestartet, setGestartet] = useState(false);
-  const [nutzername, setNutzername] = useState(localStorage.getItem("nutzername") || "");
-  const [familiencode, setFamiliencode] = useState(localStorage.getItem("familiencode") || "");
+  const [nutzername, setNutzername] = useState("");
+  const [familiencode, setFamiliencode] = useState("");
+
+  useEffect(() => {
+    const gespeicherterName = localStorage.getItem("nutzername");
+    const gespeicherterCode = localStorage.getItem("familiencode");
+    if (gespeicherterName && gespeicherterCode) {
+      setNutzername(gespeicherterName);
+      setFamiliencode(gespeicherterCode);
+      setGestartet(true);
+    }
+  }, []);
 
   const handleStart = (name, code) => {
     setNutzername(name);

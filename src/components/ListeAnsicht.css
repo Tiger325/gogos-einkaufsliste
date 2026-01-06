@@ -1,20 +1,15 @@
+
 .liste-container {
   background-image: url("../assets/notizbuch.jpg");
   background-size: cover;
-  background-position: center;
   min-height: 100vh;
-  padding: 16px;
+  padding: 20px;
 }
 
 .kopfbereich {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.kopfbereich button {
-  padding: 5px 10px;
 }
 
 ul {
@@ -25,9 +20,14 @@ ul {
 li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 8px;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+li.erledigt span {
+  text-decoration: line-through;
+  opacity: 0.6;
 }
 
 .eingabe-bereich {
@@ -36,11 +36,7 @@ li {
   gap: 10px;
 }
 
-.eingabe-bereich input {
+input {
   flex: 1;
-  padding: 8px;
-}
-
-.eingabe-bereich button {
   padding: 8px;
 }

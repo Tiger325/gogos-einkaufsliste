@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { FaTrash, FaMicrophone, FaCamera } from "react-icons/fa";
 import { collection, addDoc, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import "./background-image: url('../assets/notizbuch.jpg";
+import "./ListeAnsicht.css";
 function ListeAnsicht({ nutzername, familiencode }) {
   const [produkte, setProdukte] = useState([]);
   const [eingabe, setEingabe] = useState("");

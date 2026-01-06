@@ -9,7 +9,7 @@ function ListeAnsicht({ nutzername, familiencode }) {
   const [produkte, setProdukte] = useState([]);
   const [eingabe, setEingabe] = useState("");
   const recognitionRef = useRef(null);
-  const listRef = collection(db, "listen", familiencode, "produkte");
+  const listRef = collection(db, "listen", familiencode, "artikel");
 
   useEffect(() => {
     const unsubscribe = onSnapshot(listRef, (snapshot) => {
@@ -42,7 +42,7 @@ function ListeAnsicht({ nutzername, familiencode }) {
 
   const produktLoeschen = async (id) => {
     try {
-      await deleteDoc(doc(db, "listen", familiencode, "produkte", id));
+      await deleteDoc(doc(db, "listen", familiencode, "artikel", id));
     } catch (error) {
       console.error("❌ Fehler beim Löschen:", error);
     }

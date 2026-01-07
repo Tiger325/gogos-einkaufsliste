@@ -13,15 +13,18 @@
 }
 
 ul {
+
   list-style: none;
   padding: 0;
-  margin-left: 76px; /* ca. 2 cm nach rechts */
+  margin-left: 5rem;      /* ca. 2 cm nach rechts */
+  padding-top: 2.4rem;   /* ca. 1 cm nach unten */
 }
+
 
 li {
   display: flex;
   justify-content: space-between;
-  padding: 8px;
+  padding: 8px; 
   border-bottom: 1px solid #ccc;
   cursor: pointer;
 }

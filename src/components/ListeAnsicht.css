@@ -1,18 +1,16 @@
 
  .liste-container {
+  min-height: 100vh;
+  width: 100%;
+
   background-image: url("../assets/notizbuch.jpg");
   background-repeat: no-repeat;
   background-position: center top;
-  background-size: cover;     /* Desktop */
-  min-height: 100vh;
+  background-size: contain;
+
   padding: 20px;
 }
 
-@media (max-width: 768px) {
-  .liste-container {
-    background-size: contain;  /* Handy */
-  }
-}
 
 
 .kopfbereich {

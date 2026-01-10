@@ -1,16 +1,19 @@
 
- .liste-container {
+.liste-container {
   height: 100vh;
   width: 100%;
-  overflow: hidden;
+  max-width: 100vw;
+  overflow-x: hidden;   /* <<< wichtig */
 
   background-image: url("../assets/notizbuch.jpg");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover;   /* <<< füllt alles aus */
+  background-size: cover;
 
-  padding: 20px;
+  padding: 16px;        /* etwas kleiner für Mobile */
+  box-sizing: border-box;
 }
+
 
 
 

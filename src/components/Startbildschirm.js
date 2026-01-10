@@ -1,34 +1,38 @@
-
 import React, { useState } from "react";
 import "./Startbildschirm.css";
+import startbild from "../assets/login-bg.png"; // dein neues Bild
 
 function Startbildschirm({ onStart }) {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
 
   const handleStartClick = () => {
-    if (name && code) {
-      onStart(name, code);
+    if (name.trim() && code.trim()) {
+      onStart(name.trim(), code.trim());
     }
   };
 
   return (
-    <div className="startbild-container">
-      <img src="/startbild.png" alt="Start" className="startbild" />
-      <div className="start-eingabe">
+    <div
+      className="startbild-container"
+      style={{ backgroundImage: `url(${startbild})` }}
+    >
+      <div className="login-overlay">
         <input
           type="text"
-          placeholder="Dein Name"
+          placeholder="Benutzer"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
         <input
           type="text"
-          placeholder="Listenname"
+          placeholder="Raum"
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
-        <button onClick={handleStartClick}>Start</button>
+
+        <button onClick={handleStartClick}>Anmelden</button>
       </div>
     </div>
   );

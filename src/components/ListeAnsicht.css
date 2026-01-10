@@ -1,10 +1,19 @@
 
-.liste-container {
+..liste-container {
   background-image: url("../assets/notizbuch.jpg");
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;     /* Desktop */
   min-height: 100vh;
   padding: 20px;
 }
+
+@media (max-width: 768px) {
+  .liste-container {
+    background-size: contain;  /* Handy */
+  }
+}
+
 
 .kopfbereich {
   display: flex;

@@ -1,17 +1,17 @@
 
  .liste-container {
-  min-height: 120vh;   /* macht die Seite optisch länger */
+  height: 100vh;
   width: 100%;
+  overflow: hidden;
 
   background-image: url("../assets/notizbuch.jpg");
   background-repeat: no-repeat;
-  background-position: center top;
-
-  background-size: 85% auto;   /* <<< schmaler machen */
-  background-color: #efe5cf;
+  background-position: center center;
+  background-size: cover;   /* <<< füllt alles aus */
 
   padding: 20px;
 }
+
 
 
 
